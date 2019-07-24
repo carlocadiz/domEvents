@@ -1,7 +1,6 @@
-var button = document.getElementById("enter");
-var input = document.getElementById("userinput");
-var ul = document.querySelector("ul");var li = document.querySelectorAll("li");
-//var list = document.querySelectorAll("li");
+const button = document.getElementById("enter");
+const input = document.getElementById("userinput");
+const ul = document.querySelector("ul");var li = document.querySelectorAll("li");
 
 
 function getCurrentList(){
@@ -14,7 +13,7 @@ function inputLength() {
 }
 
 function createListElement(){
-  var li = document.createElement("li");
+  const li = document.createElement("li");
   li.appendChild(document.createTextNode(input.value));
   ul.appendChild(li);
   createDeleteButton(getCurrentList().length - 1);
@@ -33,30 +32,30 @@ function addListAfterKeypress(event){
   }
 }
 
-function createDeleteButton(index){
-  let list = getCurrentList();
-  let button=document.createElement("button");
-  button.appendChild(document.createTextNode("Delete!"));
-  list[index].appendChild(button);
-  button.onclick=removeParent;
+function toggleLineThrough(event) {
+  const li = event.target.closest('li');
+  li.classList.toggle("done");
 }
 
-function removeParent(event){
+function createDeleteButton(index){
+  const list = getCurrentList();
+  const button=document.createElement("button");
+  button.appendChild(document.createTextNode("Delete Me"));
+  list[index].appendChild(button);
+  button.onclick=removeListItem;
+}
+
+function removeListItem(event){
   event.target.parentNode.remove();
 }
 
 button.addEventListener("click", addListAfterClick)
 input.addEventListener("keypress", addListAfterKeypress)
+ul.addEventListener("click", toggleLineThrough)
 
-ul.addEventListener("click", function(e){
-  var li = e.target.closest('li');
-  li.classList.toggle("done");
+getCurrentList().forEach(function(element, index){
+  createDeleteButton(index);
 })
-
-
-for( let i=0;i<getCurrentList().length;i++){
-  createDeleteButton(i);
-}
 
 
 
